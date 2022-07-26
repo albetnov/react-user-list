@@ -1,4 +1,8 @@
 import React from "react";
+import Address from "./Address";
+import Company from "./Company";
+
+import dummyPicture from "../../public/dummypicture.jpeg";
 
 export default function UserLists({ state, elemRef }) {
   if (Object.keys(state).length === 0) return "";
@@ -13,10 +17,7 @@ export default function UserLists({ state, elemRef }) {
             key={data.id}
             ref={elemRef[data.id]}
           >
-            <img
-              src="https://source.unsplash.com/100x100?potrait"
-              alt="Profile Picture"
-            />
+            <img src={dummyPicture} alt="Profile Picture" />
             <ul className="list">
               <li>ID: {data.id}</li>
               <li>Name: {data.name}</li>
@@ -24,6 +25,8 @@ export default function UserLists({ state, elemRef }) {
               <li>Email: {data.email}</li>
               <li>Tel: {data.phone}</li>
             </ul>
+            <Company company={data.company} />
+            <Address address={data.address} />
             <hr />
             <div className="card-footer">
               <a className="card-link" href={"tel:" + data.phone}>
