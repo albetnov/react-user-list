@@ -2,8 +2,6 @@ import React from "react";
 import Address from "./Address";
 import Company from "./Company";
 
-import dummyPicture from "../../public/dummypicture.jpeg";
-
 export default function UserLists({ state, elemRef }) {
   if (Object.keys(state).length === 0) return "";
   return (
@@ -17,7 +15,7 @@ export default function UserLists({ state, elemRef }) {
             key={data.id}
             ref={elemRef[data.id]}
           >
-            <img src={dummyPicture} alt="Profile Picture" />
+            <img src="/dummypicture.jpeg" alt="Profile Picture" />
             <ul className="list">
               <li>ID: {data.id}</li>
               <li>Name: {data.name}</li>
