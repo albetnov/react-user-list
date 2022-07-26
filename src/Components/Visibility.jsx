@@ -1,13 +1,13 @@
 import React from "react";
 
-export default function Visibility({ elem }) {
+export default function Visibility({ elemRef }) {
   const toggleFocus = (e) => {
     if ("key" in e) {
       if (e.key !== "Enter") {
         return false;
       }
     }
-    elem[Object.keys(elem)[0]].current.focus();
+    elemRef[Object.keys(elemRef)[0]].current.focus();
   };
   return (
     <div

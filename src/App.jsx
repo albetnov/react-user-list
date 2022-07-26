@@ -1,4 +1,4 @@
-import { createRef, useEffect, useMemo, useRef, useState } from "react";
+import React, { createRef, useEffect, useMemo, useState } from "react";
 import "./App.css";
 import Alert from "./Components/Alert";
 import Topbar from "./Components/Topbar";
@@ -62,7 +62,6 @@ export default function App() {
 
   const focusItem = (type) => {
     if (!selectedId) {
-      // console.log(data[0]);
       setSelectedId(data[0].id);
     } else {
       switch (type) {
@@ -115,7 +114,7 @@ export default function App() {
 
   return (
     <div>
-      <Visibility elem={elemRef} />
+      <Visibility elemRef={elemRef} />
       <Topbar onSearch={searchUser} />
       <Alert message={alert} state={alert} />
       <Alert state={loading} message="Loading..." />

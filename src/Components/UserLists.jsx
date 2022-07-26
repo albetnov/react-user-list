@@ -4,7 +4,7 @@ export default function UserLists({ state, elemRef }) {
   if (Object.keys(state).length === 0) return "";
   return (
     <div className="container">
-      {state.map((data, i) => {
+      {state.map((data) => {
         return (
           <div
             className="card"
