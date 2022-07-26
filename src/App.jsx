@@ -1,16 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { createRef, useEffect, useMemo, useRef, useState } from "react";
 import "./App.css";
 import Alert from "./Components/Alert";
 import Topbar from "./Components/Topbar";
 import UserLists from "./Components/UserLists";
 import Visibility from "./Components/Visibility";
 import getUser from "./Tools/Client";
+import useKeyPress from "./Tools/useKeyPress";
 
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(false);
   const [data, setData] = useState("");
-  const ref = useRef([]);
+  const [elemRef, setElemRef] = useState({});
+  const arrowLeft = useKeyPress("ArrowLeft");
+  const arrowRight = useKeyPress("ArrowRight");
+  const [selectedId, setSelectedId] = useState(null);
 
   const validateResponse = (res) => {
     if (!("data" in res)) return false;
@@ -48,17 +52,74 @@ export default function App() {
     setData(filtered);
   };
 
+  const checkIndex = (id) => {
+    if (id > Object.keys(data).length) return false;
+
+    if (id < 0) return false;
+
+    return true;
+  };
+
+  const focusItem = (type) => {
+    if (!selectedId) {
+      // console.log(data[0]);
+      setSelectedId(data[0].id);
+    } else {
+      switch (type) {
+        case "left":
+          if (checkIndex(selectedId - 1)) {
+            setSelectedId((prevValue) => prevValue - 1);
+          }
+          break;
+        default:
+          if (checkIndex(selectedId + 1)) {
+            setSelectedId((prevValue) => prevValue + 1);
+          }
+          break;
+      }
+    }
+  };
+
   useEffect(() => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if (arrowLeft) {
+      focusItem("left");
+    }
+  }, [arrowLeft]);
+
+  useEffect(() => {
+    if (arrowRight) {
+      focusItem("right");
+    }
+  }, [arrowRight]);
+
+  useEffect(() => {
+    if (selectedId) {
+      elemRef[selectedId].current.focus();
+    }
+  }, [selectedId]);
+
+  const refsById = useMemo(() => {
+    const refs = {};
+    if (data) {
+      data.forEach((item) => {
+        refs[item.id] = createRef(null);
+      });
+    }
+    setElemRef(refs);
+    return refs;
+  }, [data]);
+
   return (
     <div>
-      <Visibility elem={ref} />
+      <Visibility elem={elemRef} />
       <Topbar onSearch={searchUser} />
       <Alert message={alert} state={alert} />
       <Alert state={loading} message="Loading..." />
-      <UserLists state={data} elemRef={ref} />
+      <UserLists state={data} elemRef={refsById} />
     </div>
   );
 }

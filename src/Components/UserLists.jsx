@@ -11,7 +11,7 @@ export default function UserLists({ state, elemRef }) {
             id={data.id}
             tabIndex="0"
             key={data.id}
-            ref={data.id === state[0].id ? elemRef : null}
+            ref={elemRef[data.id]}
           >
             <img
               src="https://source.unsplash.com/100x100?potrait"

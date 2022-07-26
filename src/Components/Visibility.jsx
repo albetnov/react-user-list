@@ -7,7 +7,7 @@ export default function Visibility({ elem }) {
         return false;
       }
     }
-    elem.current.focus();
+    elem[Object.keys(elem)[0]].current.focus();
   };
   return (
     <div
